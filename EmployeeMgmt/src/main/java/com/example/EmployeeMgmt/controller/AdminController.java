@@ -3,13 +3,11 @@ package com.example.EmployeeMgmt.controller;
 import com.example.EmployeeMgmt.model.Employee;
 import com.example.EmployeeMgmt.model.HR;
 import com.example.EmployeeMgmt.service.AdminService;
-import com.example.EmployeeMgmt.service.EmployeeService;
-import com.example.EmployeeMgmt.service.HRService;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-import com.sun.crypto.provider.OAEPParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,10 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 @Autowired
   AdminService admin;
-@Autowired
-  HRService hrService;
-@Autowired
-  EmployeeService employeeService;
 
   @GetMapping("/GetAllEmployees")
   public List<Employee> viewAllEmployees()

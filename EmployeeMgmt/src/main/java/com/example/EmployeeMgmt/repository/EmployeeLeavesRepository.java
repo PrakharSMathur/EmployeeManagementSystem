@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeLeavesRepository extends
-    PagingAndSortingRepository<EmployeeLeaves,String> {
+    MongoRepository<EmployeeLeaves,String> {
 
 }

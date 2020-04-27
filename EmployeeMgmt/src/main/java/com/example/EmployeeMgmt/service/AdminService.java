@@ -1,8 +1,6 @@
 package com.example.EmployeeMgmt.service;
 
-import com.example.EmployeeMgmt.model.Employee;
-import com.example.EmployeeMgmt.model.EmployeeLeaves;
-import com.example.EmployeeMgmt.model.HR;
+import com.example.EmployeeMgmt.model.*;
 import com.example.EmployeeMgmt.repository.EmployeeLeavesRepository;
 import com.example.EmployeeMgmt.repository.EmployeeNoticeRepository;
 import com.example.EmployeeMgmt.repository.EmployeeRepository;
@@ -35,7 +33,9 @@ public class AdminService {
 
     public Serializable addEmployeeService(Employee employee) {
         //Adding Employee details supplied with Auto-Generated ID
-        employee.setEmpId(SequenceGeneratorService.generateEmpIDSequence("employee_sequences"));
+        String NumStr = String.format("%04d", Integer.parseInt(SequenceGeneratorService.generateEmpIDSequence("employee_sequences")));
+        String val = "EM" + NumStr;
+        employee.setEmpId(val);
         employeeRepository.save(employee);
 
         //Adding default leaves
@@ -46,6 +46,13 @@ public class AdminService {
         newEmpLeave.setLeaves_approved(0);
         newEmpLeave.setLeaves_applied(0);
         employeeLeavesRepository.save(newEmpLeave);
+
+        EmployeeNotice en =new EmployeeNotice();
+        en.setEmpNoticeId(SequenceGeneratorService.generateEmpNoticeSequence("employee_notice_sequences"));
+        en.setFrom("Administrator");
+        en.setToEmpID(employee.getEmpId());
+        en.setMessage("Your account has been created! Welcome to the app.");
+        employeeNoticeRepository.save(en);
         return String.format("Employee Inserted and Leave Doc set - %s", employee.getEmpId());
 
     }
@@ -112,9 +119,18 @@ public class AdminService {
     }
 
     public Serializable addHRService(HR hr) {
-        hr.setHrId(SequenceGeneratorService.generateHrIDSequence("hr_sequences"));
+        String NumStr = String.format("%04d", Integer.parseInt(SequenceGeneratorService.generateHrIDSequence("hr_sequences")));
+        String val = "HR" + NumStr;
+        hr.setHrId(val);
         System.out.print(hr.toString());
         hrRepository.save(hr);
+
+        HRNotice hn =new HRNotice();
+        hn.setNoticeID(SequenceGeneratorService.generateHRNoticeSequence("hr_notice_sequences"));
+        hn.setFrom("Administrator");
+        hn.setToHrID(hr.getHrId());
+        hn.setMessage("Your account has been created! Welcome to the app.");
+        hrNoticeRepository.save(hn);
         return "Added HR - \n" + hr.toString();
     }
 
@@ -170,6 +186,7 @@ public class AdminService {
       Optional<HR> h = hrRepository.findByName(name);
       return h;
   }
+
 }
 
 
